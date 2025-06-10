@@ -33,7 +33,7 @@ const Chat: React.FC = () => {
       return;
     }
     if (!socketRef.current) {
-      socketRef.current = io("http://localhost:4000");
+      socketRef.current = io("https://live-chat-server-zui0.onrender.com");
     }
     const handleNewMessage = (msg: Message) => {
       console.log("This is the broadcast: ", msg);
