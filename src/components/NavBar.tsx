@@ -18,7 +18,9 @@ export default function NavBar() {
 
       {/* Right: Buttons */}
       {loggedUser.name? (
-        <p onClick={()=> navigate('/dashboard')}>{loggedUser.name}</p>
+        <p
+        className="cursor-pointer select-none"
+        onClick={()=> navigate('/dashboard')}>{`${loggedUser.name}-->`}</p>
       ) : (
         <div className="space-x-4">
           <button

@@ -1,4 +1,5 @@
 // HomePage.jsx
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
@@ -9,6 +10,10 @@ const HomePage = () => {
     "Easy to integrate",
     "Will add more features in future"
   ];
+
+  useEffect(()=>{
+    alert('The application is under development')
+  },[])
 
   return (
     <div className="min-h-screen bg-gray-100 text-gray-800 p-8">
