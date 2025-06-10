@@ -21,6 +21,7 @@ const Chat: React.FC = () => {
   const user = JSON.parse(localStorage.getItem("loggedUser") || "{}");
 
   const navigate = useNavigate();
+  const apiUrl = import.meta.env.VITE_API_URL
   const socketRef = useRef<Socket | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState<string>("");
@@ -33,7 +34,7 @@ const Chat: React.FC = () => {
       return;
     }
     if (!socketRef.current) {
-      socketRef.current = io("https://live-chat-server-zui0.onrender.com");
+      socketRef.current = io(apiUrl);
     }
     const handleNewMessage = (msg: Message) => {
       console.log("This is the broadcast: ", msg);
