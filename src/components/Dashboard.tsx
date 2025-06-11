@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Chat from "./Chat";
+import Chat from "./GlobalChat";
 
 const Dashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"chats" | "profile" | "settings">(

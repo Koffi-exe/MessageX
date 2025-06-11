@@ -8,7 +8,7 @@ import NotFound from "./components/NotFound";
 import Dashboard from "./components/Dashboard";
 import Registration from "./components/Registration";
 import ProtectedElement from "./components/PrivateEle";
-import Chat from "./components/Chat";
+import PrivateRoom from "./components/PrivateRoom";
 
 function App() {
   return (
@@ -28,7 +28,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Registration />} />
           <Route path="*" element={<NotFound />} />
-          <Route path="/testing" element={<Chat />} />
+          <Route path="/testing" element={<PrivateRoom  roomId="general"/>} />
         </Routes>
       </Router>
     </>

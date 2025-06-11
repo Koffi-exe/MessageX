@@ -15,6 +15,7 @@ const initialFormState: LoginForm = {
 export default function Login() {
   const apiUrl = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
+  const [loading, setLoading] = useState<boolean>(false);
   const [formData, setFormData] = useState<LoginForm>(initialFormState);
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<boolean>(false);
@@ -42,22 +43,24 @@ export default function Login() {
     if (!validateForm()) return;
 
     try {
+      setLoading(true)
       const response = await axios.post(`${apiUrl}/login`, formData);
       console.log(response.data);
-    const {user, token} = response.data
-    const {_id, name}= user
-    localStorage.setItem('loggedUser', JSON.stringify({name, _id, token}))
-      
+      const { user, token } = response.data;
+      const { _id, name } = user;
+      localStorage.setItem("loggedUser", JSON.stringify({ name, _id, token }));
+
       setSuccess(true);
       setFormData(initialFormState);
       navigate("/dashboard");
-    } catch (e:any){
-      if(e?.response?.data?.message){
-        setError(e.response.data.message)
-      }else{
-        setError("Internal server error")
+    } catch (e: any) {
+      if (e?.response?.data?.message) {
+        setError(e.response.data.message);
+      } else {
+        setError("Internal server error");
       }
-      
+    }finally{
+      setLoading(false)
     }
   };
 
@@ -91,7 +94,7 @@ export default function Login() {
           type="submit"
           className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
         >
-          Login
+          {loading?"Loading...":"Log in"}
         </button>
       </form>
     </div>
