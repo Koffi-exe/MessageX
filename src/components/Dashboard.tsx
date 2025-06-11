@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Chat from "./GlobalChat";
+import PrivateRoom from "./PrivateRoom";
 
 const Dashboard: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<"chats" | "profile" | "settings">(
-    "chats"
-  );
+  const [activeTab, setActiveTab] = useState<
+    "Chats" | "Private Room" | "Profile" | "Settings"
+  >("Chats");
+  const [roomId, setRoomId] = useState("");
+  const [inputId, setInputId] = useState("");
   return (
     <div className="flex h-screen">
       {/* Sidebar */}
@@ -13,25 +16,33 @@ const Dashboard: React.FC = () => {
         <h2 className="text-2xl font-bold mb-4">Dashboard</h2>
         <nav className="space-y-3">
           <button
-            onClick={() => setActiveTab("chats")}
+            onClick={() => setActiveTab("Chats")}
             className={`block w-full text-left px-4 py-2 rounded hover:bg-gray-700 ${
-              activeTab === "chats" ? "bg-gray-700" : ""
+              activeTab === "Chats" ? "bg-gray-700" : ""
             }`}
           >
             📨 Global Chat
           </button>
           <button
-            onClick={() => setActiveTab("profile")}
+            onClick={() => setActiveTab("Private Room")}
             className={`block w-full text-left px-4 py-2 rounded hover:bg-gray-700 ${
-              activeTab === "profile" ? "bg-gray-700" : ""
+              activeTab === "Private Room" ? "bg-gray-700" : ""
+            }`}
+          >
+            📨 Private Room
+          </button>
+          <button
+            onClick={() => setActiveTab("Profile")}
+            className={`block w-full text-left px-4 py-2 rounded hover:bg-gray-700 ${
+              activeTab === "Profile" ? "bg-gray-700" : ""
             }`}
           >
             👤 Profile
           </button>
           <button
-            onClick={() => setActiveTab("settings")}
+            onClick={() => setActiveTab("Settings")}
             className={`block w-full text-left px-4 py-2 rounded hover:bg-gray-700 ${
-              activeTab === "settings" ? "bg-gray-700" : ""
+              activeTab === "Settings" ? "bg-gray-700" : ""
             }`}
           >
             ⚙️ Settings
@@ -41,16 +52,35 @@ const Dashboard: React.FC = () => {
 
       {/* Main Content */}
       <main className="flex-1 p-6 bg-gray-100 overflow-auto">
-        {activeTab === "chats" && <Chat />}
-        {activeTab === "profile" && <Profile />}
-        {activeTab === "settings" && <Settings />}
+        {activeTab === "Chats" && <Chat />}
+        {activeTab === "Private Room" && (
+          <>
+            {!roomId && (
+              <>
+                <input
+                  type="text"
+                  placeholder="Enter Room ID"
+                  value={inputId}
+                  onChange={(e) => setInputId(e.target.value)}
+                  className="mb-4 p-2 border rounded"
+                />
+                <button
+                className="px-4 py-2 text-white ml-3 rounded bg-blue-600 hover:bg-blue-700 transition"
+                onClick={()=>setRoomId(inputId)}>Create Room</button>
+              </>
+            )}
+
+            {roomId && <PrivateRoom roomId={roomId} />}
+          </>
+        )}
+        {activeTab === "Profile" && <Profile />}
+        {activeTab === "Settings" && <Settings />}
       </main>
     </div>
   );
 };
 
 export default Dashboard;
-
 
 const Profile = () => (
   <div>
