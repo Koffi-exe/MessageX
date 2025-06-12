@@ -41,7 +41,7 @@ const Chat: React.FC = () => {
       setMessages((prev) => [...prev, msg]);
     };
 
-    socketRef.current.on("activeUser", (count: number) => {
+    socketRef.current.on("activeGlobalUser", (count: number) => {
       setActiveUsers(count);
     });
 
