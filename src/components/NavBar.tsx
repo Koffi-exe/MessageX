@@ -13,7 +13,7 @@ export default function NavBar() {
     <nav className="flex items-center justify-between px-6 py-4 bg-gray-800 text-white shadow-md">
       {/* Left: Logo */}
       <div className="text-xl font-bold cursor-pointer select-none">
-        MyChatApp
+        MessageX
       </div>
 
       {/* Right: Buttons */}
