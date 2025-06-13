@@ -8,7 +8,6 @@ import NotFound from "./components/NotFound";
 import Dashboard from "./components/Dashboard";
 import Registration from "./components/Registration";
 import ProtectedElement from "./components/PrivateEle";
-import OtpVerification from "./components/otpverification";
 
 function App() {
   return (
