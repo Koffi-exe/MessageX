@@ -8,7 +8,7 @@ import NotFound from "./components/NotFound";
 import Dashboard from "./components/Dashboard";
 import Registration from "./components/Registration";
 import ProtectedElement from "./components/PrivateEle";
-import PrivateRoom from "./components/PrivateRoom";
+import OtpVerification from "./components/otpverification";
 
 function App() {
   return (
@@ -28,7 +28,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Registration />} />
           <Route path="*" element={<NotFound />} />
-          <Route path="/testing" element={<PrivateRoom  roomId="general"/>} />
+          {/* <Route path="/testing" element={<OtpVerification email="bzusj@g,a"/>} /> */}
         </Routes>
       </Router>
     </>
