@@ -92,14 +92,14 @@ export default function Registration() {
         otp,
         email: formData.email,
       });
-      console.log("This is response", response)
-      console.log("This is response.data", response.data)
+      // console.log("This is response", response)
+      // console.log("This is response.data", response.data)
       const { saveduser, token } = response.data;
-      console.log("This is savedUser ", saveduser)
-      console.log("This is token: ", token)
-      const { _id, name } = saveduser;
-      console.log("This is _id and name, ", _id, name)
-      localStorage.setItem("loggedUser", JSON.stringify({ _id, name, token }));
+      // console.log("This is savedUser ", saveduser)
+      // console.log("This is token: ", token)
+      const { _id, name, username, email } = saveduser;
+      // console.log("This is _id and name, ", _id, name)
+      localStorage.setItem("loggedUser", JSON.stringify({ _id, name, token, username, email }));
       navigate("/dashboard");
     } catch (error: any) {
       console.log(error.response)

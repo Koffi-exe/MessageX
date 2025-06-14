@@ -43,12 +43,16 @@ export default function Login() {
     if (!validateForm()) return;
 
     try {
-      setLoading(true)
+      setLoading(true);
       const response = await axios.post(`${apiUrl}/login`, formData);
       console.log(response.data);
       const { user, token } = response.data;
-      const { _id, name } = user;
-      localStorage.setItem("loggedUser", JSON.stringify({ name, _id, token }));
+      const {_id, name, username, email} = user
+      // console.log(`This is extracted data, _id:${_id}, token:${token}, name: ${name}, username: ${username}`)
+      localStorage.setItem(
+        "loggedUser",
+        JSON.stringify({ name, _id, token, username, email })
+      );
 
       setSuccess(true);
       setFormData(initialFormState);
@@ -59,8 +63,8 @@ export default function Login() {
       } else {
         setError("Internal server error");
       }
-    }finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -94,7 +98,7 @@ export default function Login() {
           type="submit"
           className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
         >
-          {loading?"Loading...":"Log in"}
+          {loading ? "Loading..." : "Log in"}
         </button>
       </form>
     </div>
