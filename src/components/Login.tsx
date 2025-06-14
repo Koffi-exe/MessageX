@@ -27,11 +27,11 @@ export default function Login() {
 
   const validateForm = (): boolean => {
     if (!formData.email || !formData.password) {
-      setError("Email and password are required.");
+      setError("Please fill in both email and password.");
       return false;
     }
     if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      setError("Invalid email format.");
+      setError("Please enter a valid email address.");
       return false;
     }
     setError("");
@@ -45,40 +45,34 @@ export default function Login() {
     try {
       setLoading(true);
       const response = await axios.post(`${apiUrl}/login`, formData);
-      console.log(response.data);
       const { user, token } = response.data;
-      const {_id, name, username, email} = user
-      // console.log(`This is extracted data, _id:${_id}, token:${token}, name: ${name}, username: ${username}`)
+      const { _id, name, username, email } = user;
       localStorage.setItem(
         "loggedUser",
-        JSON.stringify({ name, _id, token, username, email })
+        JSON.stringify({ _id, name, username, email, token })
       );
-
       setSuccess(true);
       setFormData(initialFormState);
       navigate("/dashboard");
     } catch (e: any) {
-      if (e?.response?.data?.message) {
-        setError(e.response.data.message);
-      } else {
-        setError("Internal server error");
-      }
+      setError(e?.response?.data?.message || "Login failed. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 bg-white p-6 rounded-2xl shadow-lg">
-      <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
+    <div className="max-w-md mx-auto mt-12 bg-white p-8 rounded-xl shadow-lg">
+      <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Welcome Back</h2>
+
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="email"
           name="email"
           value={formData.email}
           onChange={handleChange}
-          placeholder="Email"
-          className="w-full p-2 border rounded"
+          placeholder="Email Address"
+          className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           autoComplete="username"
         />
         <input
@@ -86,21 +80,31 @@ export default function Login() {
           name="password"
           value={formData.password}
           onChange={handleChange}
-          placeholder="Password"
-          className="w-full p-2 border rounded"
+          placeholder="Your Password"
+          className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           autoComplete="current-password"
         />
-        {error && <p className="text-red-500 text-sm">{error}</p>}
-        {success && (
-          <p className="text-green-600 text-sm">Logged in successfully!</p>
-        )}
+
+        {error && <p className="text-red-600 text-sm">{error}</p>}
+        {success && <p className="text-green-600 text-sm">Login successful! Redirecting...</p>}
+
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
+          className="w-full bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-700 transition"
         >
-          {loading ? "Loading..." : "Log in"}
+          {loading ? "Logging in..." : "Log In"}
         </button>
       </form>
+
+      <p className="mt-6 text-center text-sm text-gray-600">
+        Don't have an account?{" "}
+        <button
+          className="text-blue-600 hover:underline font-medium"
+          onClick={() => navigate("/register")}
+        >
+          Register now
+        </button>
+      </p>
     </div>
   );
 }

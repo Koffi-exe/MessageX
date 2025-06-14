@@ -20,7 +20,7 @@ export default function Registration() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState<RegisterForm>(initialFormState);
   const [error, setError] = useState<string>("");
-  const [OtpValidationError, setOtpValidationError] = useState<string>("");
+  const [otpError, setOtpError] = useState<string>("");
   const [registerStatus, setRegisterStatus] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [showOtpInput, setShowOtpInput] = useState<boolean>(false);
@@ -35,11 +35,11 @@ export default function Registration() {
   const validateForm = (): boolean => {
     const { name, email, username, password } = formData;
     if (!name || !email || !username || !password) {
-      setError("All fields are required.");
+      setError("Please fill in all fields.");
       return false;
     }
     if (!/\S+@\S+\.\S+/.test(email)) {
-      setError("Invalid email format.");
+      setError("Enter a valid email address.");
       return false;
     }
     if (password.length < 6) {
@@ -50,32 +50,17 @@ export default function Registration() {
     return true;
   };
 
-  const handleOtpInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    // Allow only digits, max 6 characters
-    if (/^\d{0,6}$/.test(value)) {
-      setOtp(value);
-    }
-  };
-
   const handleSendOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) return;
     setShowOtpInput(false);
     setLoading(true);
     try {
-      const response = await axios.post(
-        `${apiUrl}/register/send-otp`,
-        formData
-      );
-      // console.log("This is otp response", response);
-      setRegisterStatus(response.data.message);
-      console.log(response.data);
-      if (response.status == 200) {
-        setShowOtpInput(true);
-      }
+      const response = await axios.post(`${apiUrl}/register/send-otp`, formData);
+      setRegisterStatus("OTP has been sent to your email.");
+      if (response.status === 200) setShowOtpInput(true);
     } catch (error: any) {
-      setError(error.response.data.message);
+      setError(error.response?.data?.message || "Something went wrong.");
     } finally {
       setTimeout(() => {
         setError("");
@@ -85,6 +70,11 @@ export default function Registration() {
     }
   };
 
+  const handleOtpInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (/^\d{0,6}$/.test(value)) setOtp(value);
+  };
+
   const handleOtpSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -92,32 +82,27 @@ export default function Registration() {
         otp,
         email: formData.email,
       });
-      // console.log("This is response", response)
-      // console.log("This is response.data", response.data)
       const { saveduser, token } = response.data;
-      // console.log("This is savedUser ", saveduser)
-      // console.log("This is token: ", token)
       const { _id, name, username, email } = saveduser;
-      // console.log("This is _id and name, ", _id, name)
       localStorage.setItem("loggedUser", JSON.stringify({ _id, name, token, username, email }));
       navigate("/dashboard");
     } catch (error: any) {
-      console.log(error.response)
-      setOtpValidationError(error.response?.data.message);
+      setOtpError(error.response?.data?.message || "Invalid OTP.");
     } finally {
-      setTimeout(() => setOtpValidationError(""), 5000);
+      setTimeout(() => setOtpError(""), 5000);
     }
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 bg-white p-6 rounded-2xl shadow-lg">
-      <h2 className="text-2xl font-bold mb-4 text-center">Register</h2>
+    <div className="max-w-md mx-auto mt-12 bg-white p-8 rounded-xl shadow-lg">
+      <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Create an Account</h2>
+
       <form onSubmit={handleSendOtp} className="space-y-4">
         <input
           name="name"
           value={formData.name}
           onChange={handleChange}
-          className="w-full p-2 border rounded"
+          className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           type="text"
           placeholder="Full Name"
         />
@@ -125,62 +110,69 @@ export default function Registration() {
           name="email"
           value={formData.email}
           onChange={handleChange}
-          className="w-full p-2 border rounded"
+          className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           type="email"
-          placeholder="Email"
+          placeholder="Email Address"
         />
         <input
           name="username"
           value={formData.username}
           onChange={handleChange}
-          className="w-full p-2 border rounded"
+          className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           type="text"
-          placeholder="Username"
+          placeholder="Choose a Username"
         />
         <input
           name="password"
           value={formData.password}
           onChange={handleChange}
-          className="w-full p-2 border rounded"
+          className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           type="password"
-          placeholder="Password"
+          placeholder="Create a Password"
         />
-        {error && <p className="text-red-500 text-sm">{error}</p>}
-        {registerStatus && (
-          <p className="text-green-600 text-sm">{registerStatus}</p>
-        )}
+        {error && <p className="text-red-600 text-sm">{error}</p>}
+        {registerStatus && <p className="text-green-600 text-sm">{registerStatus}</p>}
+
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
+          className="w-full bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-700 transition"
         >
-          {loading ? "Sending..." : "Send OTP"}
+          {loading ? "Sending OTP..." : "Send OTP"}
         </button>
       </form>
 
       {showOtpInput && (
-        <div className="max-w-md mx-auto mt-10 bg-white p-6 rounded-2xl shadow-lg">
-          <h2 className="text-2xl font-bold mb-4 text-center">Enter OTP</h2>
+        <div className="mt-10">
+          <h3 className="text-xl font-semibold text-center mb-4">Verify Your Email</h3>
           <form onSubmit={handleOtpSubmit} className="space-y-4">
             <input
               type="text"
               value={otp}
               onChange={handleOtpInput}
-              className="w-full p-2 border rounded text-center tracking-widest text-lg"
-              placeholder="Enter 6-digit OTP"
               maxLength={6}
+              placeholder="Enter 6-digit OTP"
+              className="w-full p-3 border border-gray-300 rounded text-center tracking-widest text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            {OtpValidationError && (
-              <p className="text-red-500 text-sm">{OtpValidationError}</p>
-            )}
+            {otpError && <p className="text-red-600 text-sm text-center">{otpError}</p>}
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
+              className="w-full bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-700 transition"
             >
-              Verify OTP
+              Verify & Register
             </button>
           </form>
         </div>
       )}
+
+      <p className="mt-6 text-center text-sm text-gray-600">
+        Already have an account?{" "}
+        <button
+          className="text-blue-600 hover:underline font-medium"
+          onClick={() => navigate("/login")}
+        >
+          Log in here
+        </button>
+      </p>
     </div>
   );
 }
