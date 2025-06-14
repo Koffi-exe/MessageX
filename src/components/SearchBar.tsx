@@ -35,7 +35,7 @@ const SearchBar: React.FC = () => {
     } catch (error: any) {
       setSearchError(
         error?.response?.data?.message || "An error occurred while searching."
-      );
+      ); 
     }
   };
 

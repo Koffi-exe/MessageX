@@ -8,7 +8,7 @@ import NotFound from "./components/NotFound";
 import Dashboard from "./components/Dashboard";
 import Registration from "./components/Registration";
 import ProtectedElement from "./components/PrivateEle";
-import SearchBar from "./components/Searchbar";
+import SearchBar from "./components/SearchBar";
 
 function App() {
   return (
