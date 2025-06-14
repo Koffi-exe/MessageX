@@ -8,6 +8,7 @@ import NotFound from "./components/NotFound";
 import Dashboard from "./components/Dashboard";
 import Registration from "./components/Registration";
 import ProtectedElement from "./components/PrivateEle";
+import SearchBar from "./components/Searchbar";
 
 function App() {
   return (
@@ -31,10 +32,35 @@ function App() {
               </ProtectedElement>
             }
           />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Registration />} />
+          <Route
+            path="/login"
+            element={
+              <>
+                <NavBar />
+                <Login />
+              </>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <>
+                <NavBar />
+                <Registration />
+              </>
+            }
+          />
+          <Route
+            path="/search"
+            element={
+              <>
+                <NavBar />
+                <SearchBar />
+              </>
+            }
+          />
           <Route path="*" element={<NotFound />} />
-          {/* <Route path="/testing" element={<OtpVerification email="bzusj@g,a"/>} /> */}
+          <Route path="/testing" element={<SearchBar />} />
         </Routes>
       </Router>
     </>

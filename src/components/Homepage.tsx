@@ -8,12 +8,10 @@ const HomePage = () => {
   const features = [
     "Fast and responsive",
     "Easy to integrate",
-    "Will add more features in future"
+    "Will add more features in future",
+    "App is still under development"
   ];
 
-  useEffect(()=>{
-    alert('The application is under development')
-  },[])
 
   return (
     <div className="min-h-screen bg-gray-100 text-gray-800 p-8">

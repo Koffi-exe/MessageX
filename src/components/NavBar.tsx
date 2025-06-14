@@ -12,15 +12,17 @@ export default function NavBar() {
   return (
     <nav className="flex items-center justify-between px-6 py-4 bg-gray-800 text-white shadow-md">
       {/* Left: Logo */}
-      <div className="text-xl font-bold cursor-pointer select-none">
+      <div className="text-xl font-bold cursor-pointer select-none"
+      onClick={()=>navigate('/')}>
         MessageX
       </div>
 
       {/* Right: Buttons */}
-      {loggedUser.name? (
-        <p
-        className="cursor-pointer select-none"
-        onClick={()=> navigate('/dashboard')}>{`${loggedUser.name}-->`}</p>
+      {loggedUser.name ? (
+          <div className="flex gap-5">
+            <p className="cursor-pointer" onClick={()=> navigate('/search')}>Search 🔍︎</p>
+            <p className="cursor-pointer" onClick={()=> navigate('/dashboard')}>{loggedUser.name}  ➤</p>
+          </div>
       ) : (
         <div className="space-x-4">
           <button
