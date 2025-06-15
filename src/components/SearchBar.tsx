@@ -82,7 +82,7 @@ const SearchBar: React.FC = () => {
               <strong>Username:</strong> {foundUser.username}
             </p>
           <button
-                onClick={()=>alert("Under Developement")}
+                onClick={()=>alert("Under Developement")} 
                 className="bg-blue-600 text-white px-5 w-full mt-5 py-2 rounded-lg hover:bg-blue-700 transition duration-200">
                 Add as friend
             </button>

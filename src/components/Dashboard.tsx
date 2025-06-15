@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Chat from "./GlobalChat";
 import PrivateRoom from "./PrivateRoom";
+import Settings from "./DashboardSetting";
 
 // Profile Component
 const Profile = () => {
@@ -36,16 +37,7 @@ const Profile = () => {
   );
 };
 
-// Settings Component
-const Settings = () => {
-  return (
-    <div className="p-6">
-      <h1 className="text-2xl font-semibold mb-4">Settings</h1>
-      <p className="text-xl">Functionalites to add:</p>
-      <p>password forget, name update and username update soon</p>
-    </div>
-  );
-};
+
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate()
