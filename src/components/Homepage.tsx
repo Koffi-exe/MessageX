@@ -52,7 +52,7 @@ const HomePage = () => {
             {/* Welcome Banner */}
             <div className="bg-white shadow-lg rounded-xl p-6 flex flex-col md:flex-row justify-between items-center mb-10">
               <div>
-                <h2 className="text-3xl font-bold mb-2">Welcome back, {loggedUser.name || "User"}!</h2>
+                <h2 className="text-3xl font-bold mb-2">Welcome, {loggedUser.name || "User"}!</h2>
                 <p className="text-gray-600">
                   You can now chat with friends and upload photos securely.
                 </p>
