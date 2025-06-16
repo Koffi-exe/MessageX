@@ -124,30 +124,30 @@ const Settings = () => {
   };
 
   return (
-    <div className="p-6 max-w-xl mx-auto">
-      <h1 className="text-2xl font-semibold mb-6">Settings</h1>
+    <div className="p-6 max-w-xl mx-auto bg-white shadow-md rounded-xl mt-10">
+      <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">Settings</h1>
 
       {/* Change Name */}
-      <div className="mb-4 border p-4 rounded">
+      <div className="mb-6 border border-gray-200 rounded-lg p-4">
         <button
-          className="text-lg font-medium mb-2"
+          className="text-lg font-semibold text-gray-700 hover:text-blue-600 transition"
           onClick={() => toggleSection("name")}
         >
           Change Name
         </button>
         {activeSection === "name" && (
-          <form onSubmit={handleNameUpdate} className="space-y-3 mt-2">
+          <form onSubmit={handleNameUpdate} className="mt-4 space-y-3">
             <input
               type="text"
               name="name"
               placeholder="New name"
               value={formData.name}
               onChange={handleChange}
-              className="w-full p-2 border rounded"
+              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-400"
             />
             <button
               type="submit"
-              className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+              className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
             >
               Update Name
             </button>
@@ -156,26 +156,26 @@ const Settings = () => {
       </div>
 
       {/* Change Username */}
-      <div className="mb-4 border p-4 rounded">
+      <div className="mb-6 border border-gray-200 rounded-lg p-4">
         <button
-          className="text-lg font-medium mb-2"
+          className="text-lg font-semibold text-gray-700 hover:text-blue-600 transition"
           onClick={() => toggleSection("username")}
         >
           Change Username
         </button>
         {activeSection === "username" && (
-          <form className="space-y-3 mt-2" onSubmit={handleUsernameUpdate}>
+          <form onSubmit={handleUsernameUpdate} className="mt-4 space-y-3">
             <input
               type="text"
               name="username"
               placeholder="New username"
               value={formData.username}
               onChange={handleChange}
-              className="w-full p-2 border rounded"
+              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-400"
             />
             <button
               type="submit"
-              className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+              className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
             >
               Update Username
             </button>
@@ -184,22 +184,22 @@ const Settings = () => {
       </div>
 
       {/* Change Password */}
-      <div className="mb-4 border p-4 rounded">
+      <div className="mb-6 border border-gray-200 rounded-lg p-4">
         <button
-          className="text-lg font-medium mb-2"
+          className="text-lg font-semibold text-gray-700 hover:text-blue-600 transition"
           onClick={() => toggleSection("password")}
         >
           Change Password
         </button>
         {activeSection === "password" && (
-          <form onSubmit={handlePasswordUpdate} className="space-y-3 mt-2">
+          <form onSubmit={handlePasswordUpdate} className="mt-4 space-y-3">
             <input
               type="password"
               name="currentPassword"
               placeholder="Current password"
               value={formData.currentPassword}
               onChange={handleChange}
-              className="w-full p-2 border rounded"
+              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-400"
             />
             <input
               type="password"
@@ -207,11 +207,11 @@ const Settings = () => {
               placeholder="New password"
               value={formData.newPassword}
               onChange={handleChange}
-              className="w-full p-2 border rounded"
+              className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-400"
             />
             <button
               type="submit"
-              className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+              className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
             >
               Update Password
             </button>
@@ -220,14 +220,10 @@ const Settings = () => {
       </div>
 
       {/* Message Feedback */}
-      {status && (
-        <p className="text-green-600 text-sm text-center mt-4">{status}</p>
-      )}
-      {message && (
-        <p className="text-red-600 text-sm text-center mt-4">{message}</p>
-      )}
+      {status && <p className="text-green-600 text-center text-sm">{status}</p>}
+      {message && <p className="text-red-600 text-center text-sm">{message}</p>}
       {passwordError && (
-        <p className="text-red-600 text-sm text-center mt-4">{passwordError}</p>
+        <p className="text-red-600 text-center text-sm">{passwordError}</p>
       )}
     </div>
   );

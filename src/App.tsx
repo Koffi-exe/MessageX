@@ -9,7 +9,6 @@ import Dashboard from "./components/Dashboard";
 import Registration from "./components/Registration";
 import ProtectedElement from "./components/PrivateEle";
 import SearchBar from "./components/SearchBar";
-import FriendsList from "./components/FriendsList";
 import SecondUserProfile from "./components/SecondUserProfile";
 import FriendRequests from "./components/FriendRequests";
 

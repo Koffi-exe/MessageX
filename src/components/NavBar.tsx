@@ -1,28 +1,45 @@
 import { useNavigate } from "react-router-dom";
+import { FaSearch, FaUser } from "react-icons/fa";
 
 export default function NavBar() {
   const navigate = useNavigate();
   const loggedUser = JSON.parse(localStorage.getItem("loggedUser") || "{}");
+
   const handleLoginClick = () => {
     navigate("/login");
   };
   const handleRegisterClick = () => {
     navigate("/register");
   };
+
   return (
     <nav className="flex items-center justify-between px-6 py-4 bg-gray-800 text-white shadow-md">
       {/* Left: Logo */}
-      <div className="text-xl font-bold cursor-pointer select-none"
-      onClick={()=>navigate('/')}>
+      <div
+        className="text-xl font-bold cursor-pointer select-none"
+        onClick={() => navigate("/")}
+      >
         MessageX
       </div>
 
       {/* Right: Buttons */}
       {loggedUser.name ? (
-          <div className="flex gap-5">
-            <p className="cursor-pointer" onClick={()=> navigate('/search')}>Search 🔍︎</p>
-            <p className="cursor-pointer" onClick={()=> navigate('/dashboard')}>{loggedUser.name}  ➤</p>
-          </div>
+        <div className="flex gap-5 items-center">
+          <p
+            className="cursor-pointer flex items-center gap-1"
+            onClick={() => navigate("/search")}
+          >
+            <FaSearch />
+            Search
+          </p>
+          <p
+            className="cursor-pointer flex items-center gap-1"
+            onClick={() => navigate("/dashboard")}
+          >
+            <FaUser />
+            {loggedUser.name}
+          </p>
+        </div>
       ) : (
         <div className="space-x-4">
           <button
