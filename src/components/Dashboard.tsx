@@ -46,7 +46,7 @@ const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<
     "Home" | "Chats" | "Private Room" | "Profile" | "Settings" | "Friends" | "Friend Requests"
-  >("Chats");
+  >("Friends");
   const [roomId, setRoomId] = useState("");
   const [inputId, setInputId] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);

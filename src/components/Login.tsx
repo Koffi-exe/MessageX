@@ -53,7 +53,7 @@ export default function Login() {
       );
       setSuccess(true);
       setFormData(initialFormState);
-      navigate("/dashboard");
+      navigate("/");
     } catch (e: any) {
       setError(e?.response?.data?.message || "Login failed. Please try again.");
     } finally {

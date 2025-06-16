@@ -85,7 +85,7 @@ export default function Registration() {
       const { saveduser, token } = response.data;
       const { _id, name, username, email } = saveduser;
       localStorage.setItem("loggedUser", JSON.stringify({ _id, name, token, username, email }));
-      navigate("/dashboard");
+      navigate("/");
     } catch (error: any) {
       setOtpError(error.response?.data?.message || "Invalid OTP.");
     } finally {
