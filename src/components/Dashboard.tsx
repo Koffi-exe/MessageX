@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { MdHome, MdChat, MdLock, MdPerson, MdSettings, MdPeople } from "react-icons/md";
+
 import Chat from "./GlobalChat";
 import PrivateRoom from "./PrivateRoom";
 import Settings from "./DashboardSetting";
+import FriendsList from "./FriendsList";
+import FriendRequests from "./FriendRequests";
 
 // Profile Component
 const Profile = () => {
@@ -37,22 +41,31 @@ const Profile = () => {
   );
 };
 
-
-
+// Dashboard Component
 const Dashboard: React.FC = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<
-    "Home" | "Chats" | "Private Room" | "Profile" | "Settings"
+    "Home" | "Chats" | "Private Room" | "Profile" | "Settings" | "Friends" | "Friend Requests"
   >("Chats");
   const [roomId, setRoomId] = useState("");
   const [inputId, setInputId] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
-  if (activeTab === "Home") {
-    navigate("/");
-  }
-}, [activeTab, navigate]);
+    if (activeTab === "Home") {
+      navigate("/");
+    }
+  }, [activeTab, navigate]);
+
+  const tabs = [
+    { name: "Home", label: "Home", icon: <MdHome className="inline-block mr-2" /> },
+    { name: "Friends", label: "Friends List", icon: <MdPeople className="inline-block mr-2" /> },
+    { name: "Friend Requests", label: "Friend Requests", icon: <MdPeople className="inline-block mr-2" /> },
+    { name: "Chats", label: "Global Chat", icon: <MdChat className="inline-block mr-2" /> },
+    { name: "Private Room", label: "Private Room", icon: <MdLock className="inline-block mr-2" /> },
+    { name: "Profile", label: "Profile", icon: <MdPerson className="inline-block mr-2" /> },
+    { name: "Settings", label: "Settings", icon: <MdSettings className="inline-block mr-2" /> },
+  ];
 
   return (
     <div className="flex h-screen overflow-hidden relative">
@@ -67,7 +80,7 @@ const Dashboard: React.FC = () => {
       {/* Sidebar */}
       <aside
         className={`fixed top-0 left-0 h-full w-64 bg-gray-800 text-white p-4 space-y-6 transform transition-transform duration-300 z-30
-          ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 md:static md:block`}
+        ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 md:static md:block`}
       >
         <div className="flex justify-between items-center mb-4 md:hidden">
           <h2 className="text-2xl font-bold">Dashboard</h2>
@@ -78,22 +91,19 @@ const Dashboard: React.FC = () => {
 
         <h2 className="text-2xl font-bold hidden md:block">Dashboard</h2>
         <nav className="space-y-3">
-          {["Home","Chats", "Private Room", "Profile", "Settings"].map((tab) => (
+          {tabs.map((tab) => (
             <button
-              key={tab}
+              key={tab.name}
               onClick={() => {
-                setActiveTab(tab as any);
+                setActiveTab(tab.name as any);
                 setSidebarOpen(false);
               }}
               className={`block w-full text-left px-4 py-2 rounded hover:bg-gray-700 ${
-                activeTab === tab ? "bg-gray-700" : ""
+                activeTab === tab.name ? "bg-gray-700" : ""
               }`}
             >
-              {tab === "Home" && "📨 Home"}
-              {tab === "Chats" && "📨 Global Chat"}
-              {tab === "Private Room" && "🔒 Private Room"}
-              {tab === "Profile" && "👤 Profile"}
-              {tab === "Settings" && "⚙️ Settings"}
+              {tab.icon}
+              {tab.label}
             </button>
           ))}
         </nav>
@@ -126,6 +136,8 @@ const Dashboard: React.FC = () => {
         )}
         {activeTab === "Profile" && <Profile />}
         {activeTab === "Settings" && <Settings />}
+        {activeTab === "Friends" && <FriendsList />}
+        {activeTab === "Friend Requests" && <FriendRequests/>}
       </main>
     </div>
   );

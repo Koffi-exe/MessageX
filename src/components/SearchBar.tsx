@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface User {
   _id: any;
@@ -8,6 +9,7 @@ interface User {
 }
 
 const SearchBar: React.FC = () => {
+  const navigate = useNavigate()
   const [query, setQuery] = useState("");
   const [searchError, setSearchError] = useState<string>("");
   const [foundUser, setFoundUser] = useState<User | null>(null);
@@ -29,6 +31,7 @@ const SearchBar: React.FC = () => {
       const searchResult = response.data.foundUser;
       if (searchResult && searchResult._id) {
         setFoundUser(searchResult);
+        console.log(searchResult)
       } else {
         setSearchError("User not found.");
       }
@@ -82,9 +85,11 @@ const SearchBar: React.FC = () => {
               <strong>Username:</strong> {foundUser.username}
             </p>
           <button
-                onClick={()=>alert("Under Developement")} 
+                onClick={()=>{
+                  navigate(`/user-profile/${foundUser._id}`)
+                }}
                 className="bg-blue-600 text-white px-5 w-full mt-5 py-2 rounded-lg hover:bg-blue-700 transition duration-200">
-                Add as friend
+                Profile
             </button>
           </div>
           

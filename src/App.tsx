@@ -9,6 +9,9 @@ import Dashboard from "./components/Dashboard";
 import Registration from "./components/Registration";
 import ProtectedElement from "./components/PrivateEle";
 import SearchBar from "./components/SearchBar";
+import FriendsList from "./components/FriendsList";
+import SecondUserProfile from "./components/SecondUserProfile";
+import FriendRequests from "./components/FriendRequests";
 
 function App() {
   return (
@@ -59,8 +62,25 @@ function App() {
               </>
             }
           />
+          <Route
+            path="user-profile/:id"
+            element={
+              <>
+                <NavBar />
+                <SecondUserProfile />
+              </>
+            }
+          />
           <Route path="*" element={<NotFound />} />
-          <Route path="/testing" element={<SearchBar />} />
+          <Route
+            path="/testing"
+            element={
+              <>
+                <NavBar />
+                <FriendRequests />
+              </>
+            }
+          />
         </Routes>
       </Router>
     </>
