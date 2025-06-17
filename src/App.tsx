@@ -71,17 +71,16 @@ function App() {
               </>
             }
           />
-          <Route path="*" element={<NotFound />} />
           <Route
             path="/privatemessage/:receiverId"
             element={
               <>
                 <NavBar />
-                <PrivateChat/>
+                <PrivateChat />
               </>
             }
           />
-          <Route
+          {/* <Route
             path="/testing"
             element={
               <>
@@ -89,7 +88,8 @@ function App() {
                 <FriendRequests />
               </>
             }
-          />
+          /> */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
     </>
