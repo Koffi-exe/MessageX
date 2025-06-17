@@ -65,7 +65,11 @@ const PrivateChat: React.FC = () => {
     socket.emit("registerUser", { userId: senderId });
 
     socket.on("newPrivateMessage", (data: Message) => {
-      setMessages((prev) => [...prev, data]);
+      const parsedMessage = {
+        ...data,
+        sentAt: new Date(data.sentAt),
+      };
+      setMessages((prev) => [...prev, parsedMessage]);
     });
   }, []);
 
@@ -85,7 +89,7 @@ const PrivateChat: React.FC = () => {
 
   return (
     <div className="flex flex-col h-[90vh] max-w-xl mx-auto border shadow rounded-md bg-white scrollbar-hide">
-      <div className="p-4 border-b text-lg font-semibold bg-blue-600 text-white rounded-t-md" >
+      <div className="p-4 border-b text-lg font-semibold bg-blue-600 text-white rounded-t-md">
         Private Chat
       </div>
 
