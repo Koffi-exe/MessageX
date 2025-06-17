@@ -49,7 +49,7 @@ const Dashboard: React.FC = () => {
   >("Friends");
   const [roomId, setRoomId] = useState("");
   const [inputId, setInputId] = useState("");
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   useEffect(() => {
     if (activeTab === "Home") {

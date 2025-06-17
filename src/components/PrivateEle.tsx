@@ -36,9 +36,11 @@ export default function ProtectedElement({ children }: ProtectedElementProps) {
         if (validity) {
           setIsValid(true);
         } else {
+          localStorage.removeItem("loggedUser")
           navigate("/");
         }
       } catch (error) {
+        localStorage.removeItem("loggedUser")
         navigate("/");
       }
     };
