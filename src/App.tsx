@@ -11,6 +11,7 @@ import ProtectedElement from "./components/PrivateEle";
 import SearchBar from "./components/SearchBar";
 import SecondUserProfile from "./components/SecondUserProfile";
 import FriendRequests from "./components/FriendRequests";
+import PrivateChat from "./components/PrivateChat";
 
 function App() {
   return (
@@ -71,6 +72,15 @@ function App() {
             }
           />
           <Route path="*" element={<NotFound />} />
+          <Route
+            path="/privatemessage/:receiverId"
+            element={
+              <>
+                <NavBar />
+                <PrivateChat/>
+              </>
+            }
+          />
           <Route
             path="/testing"
             element={
