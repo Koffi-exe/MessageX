@@ -30,14 +30,12 @@ export default function NavBar() {
             onClick={() => navigate("/search")}
           >
             <FaSearch />
-            Search
           </p>
           <p
             className="cursor-pointer flex items-center gap-1"
             onClick={() => navigate("/dashboard")}
           >
             <FaUser />
-            {loggedUser.name}
           </p>
         </div>
       ) : (

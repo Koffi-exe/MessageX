@@ -10,7 +10,7 @@ import Registration from "./components/Registration";
 import ProtectedElement from "./components/PrivateEle";
 import SearchBar from "./components/SearchBar";
 import SecondUserProfile from "./components/SecondUserProfile";
-import FriendRequests from "./components/FriendRequests";
+// import FriendRequests from "./components/FriendRequests";
 import PrivateChat from "./components/PrivateChat";
 
 function App() {
