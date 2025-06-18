@@ -11,14 +11,18 @@ export default function ProtectedElement({ children }: ProtectedElementProps) {
   const navigate = useNavigate();
   const [isValid, setIsValid] = useState<boolean | null>(null); // null = loading
 
+  const handleInvalid = () => {
+    localStorage.removeItem("loggedUser");
+    navigate("/");
+  };
+
   useEffect(() => {
     const verifyToken = async () => {
       const loggedUser = JSON.parse(localStorage.getItem("loggedUser") || "{}");
       const token = loggedUser.token;
 
       if (!token) {
-        navigate("/");
-        return;
+        return navigate("/");
       }
 
       try {
@@ -36,12 +40,10 @@ export default function ProtectedElement({ children }: ProtectedElementProps) {
         if (validity) {
           setIsValid(true);
         } else {
-          localStorage.removeItem("loggedUser")
-          navigate("/");
+          handleInvalid();
         }
       } catch (error) {
-        localStorage.removeItem("loggedUser")
-        navigate("/");
+        handleInvalid();
       }
     };
 
@@ -50,6 +52,12 @@ export default function ProtectedElement({ children }: ProtectedElementProps) {
 
   if (isValid === null) {
     return <p className="text-center mt-4">Checking authentication...</p>;
+  } else if (isValid === false) {
+    return (
+      <p className="text-center text-red-500">
+        Session expired. Redirecting...
+      </p>
+    );
   }
 
   return <>{children}</>;
