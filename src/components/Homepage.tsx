@@ -1,7 +1,10 @@
+import axios from "axios";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   const features = [
     "Fast and responsive",
@@ -11,7 +14,34 @@ const HomePage = () => {
   ];
 
   const loggedUser = JSON.parse(localStorage.getItem("loggedUser") || "{}");
+  useEffect(() => {
+    if (loggedUser._id) {
+      const { expiresAt } = loggedUser;
+      if (expiresAt < Date.now()) {
+        alert("session expired, login again");
+        localStorage.removeItem("loggedUser");
+        navigate("/login");
+      }
 
+      // fetching user from DB; incase the credentials were changed on diff device
+      const fetchUserDetails = async () => {
+        try {
+          const response = await axios.get(
+            `${apiUrl}/search/home/${loggedUser._id}`
+          );
+          const { foundUser } = response.data;
+          const { name, username } = foundUser;
+          loggedUser.name = name;
+          loggedUser.username = username;
+          localStorage.setItem("loggedUser", JSON.stringify(loggedUser));
+        } catch (error) {
+          localStorage.removeItem("loggedUser");
+          navigate("/register");
+        }
+      };
+      fetchUserDetails();
+    }
+  }, []);
   return (
     <div>
       {!loggedUser._id ? (
@@ -32,7 +62,9 @@ const HomePage = () => {
 
           {/* Features Section */}
           <div className="max-w-3xl mx-auto mt-16">
-            <h2 className="text-3xl font-semibold text-center mb-8">Features</h2>
+            <h2 className="text-3xl font-semibold text-center mb-8">
+              Features
+            </h2>
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {features.map((feature, index) => (
                 <li
@@ -46,26 +78,27 @@ const HomePage = () => {
           </div>
         </div>
       ) : (
-
         <div className="min-h-screen bg-gray-50 p-6 text-gray-800">
           <div className="max-w-6xl mx-auto">
             {/* Welcome Banner */}
             <div className="bg-white shadow-lg rounded-xl p-6 flex flex-col md:flex-row justify-between items-center mb-10">
               <div>
-                <h2 className="text-3xl font-bold mb-2">Welcome, {loggedUser.name || "User"}!</h2>
+                <h2 className="text-3xl font-bold mb-2">
+                  Welcome, {loggedUser.name || "User"}!
+                </h2>
                 <p className="text-gray-600">
                   You can now chat with friends and upload photos securely.
                 </p>
               </div>
               <div className="mt-4 md:mt-0">
                 <button
-                  onClick={() => alert('under development')}
+                  onClick={() => alert("under development")}
                   className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg mr-3"
                 >
                   Open Chat
                 </button>
                 <button
-                  onClick={()=> alert('Under development')}
+                  onClick={() => alert("Under development")}
                   className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg"
                 >
                   Upload Photo
@@ -78,9 +111,15 @@ const HomePage = () => {
               <div className="bg-white p-5 rounded-xl shadow-md">
                 <h3 className="text-xl font-semibold mb-4">Recent Chats</h3>
                 <ul className="space-y-3 text-gray-700">
-                  <li className="p-3 bg-gray-100 rounded">👤 You chatted with Alice</li>
-                  <li className="p-3 bg-gray-100 rounded">👤 You sent a photo to Bob</li>
-                  <li className="p-3 bg-gray-100 rounded">👤 New friend request from Charlie</li>
+                  <li className="p-3 bg-gray-100 rounded">
+                    👤 You chatted with Alice
+                  </li>
+                  <li className="p-3 bg-gray-100 rounded">
+                    👤 You sent a photo to Bob
+                  </li>
+                  <li className="p-3 bg-gray-100 rounded">
+                    👤 New friend request from Charlie
+                  </li>
                 </ul>
               </div>
 

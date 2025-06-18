@@ -56,7 +56,10 @@ export default function Registration() {
     setShowOtpInput(false);
     setLoading(true);
     try {
-      const response = await axios.post(`${apiUrl}/register/send-otp`, formData);
+      const response = await axios.post(
+        `${apiUrl}/register/send-otp`,
+        formData
+      );
       setRegisterStatus("OTP has been sent to your email.");
       if (response.status === 200) setShowOtpInput(true);
     } catch (error: any) {
@@ -82,9 +85,13 @@ export default function Registration() {
         otp,
         email: formData.email,
       });
+      const expiresAt = Date.now() + 7*24*60*60*1000;
       const { saveduser, token } = response.data;
       const { _id, name, username, email } = saveduser;
-      localStorage.setItem("loggedUser", JSON.stringify({ _id, name, token, username, email }));
+      localStorage.setItem(
+        "loggedUser",
+        JSON.stringify({ _id, name, token, username, email, expiresAt })
+      );
       navigate("/");
     } catch (error: any) {
       setOtpError(error.response?.data?.message || "Invalid OTP.");
@@ -95,7 +102,9 @@ export default function Registration() {
 
   return (
     <div className="max-w-md mx-auto mt-12 bg-white p-8 rounded-xl shadow-lg">
-      <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Create an Account</h2>
+      <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">
+        Create an Account
+      </h2>
 
       <form onSubmit={handleSendOtp} className="space-y-4">
         <input
@@ -131,7 +140,9 @@ export default function Registration() {
           placeholder="Create a Password"
         />
         {error && <p className="text-red-600 text-sm">{error}</p>}
-        {registerStatus && <p className="text-green-600 text-sm">{registerStatus}</p>}
+        {registerStatus && (
+          <p className="text-green-600 text-sm">{registerStatus}</p>
+        )}
 
         <button
           type="submit"
@@ -143,7 +154,9 @@ export default function Registration() {
 
       {showOtpInput && (
         <div className="mt-10">
-          <h3 className="text-xl font-semibold text-center mb-4">Verify Your Email</h3>
+          <h3 className="text-xl font-semibold text-center mb-4">
+            Verify Your Email
+          </h3>
           <form onSubmit={handleOtpSubmit} className="space-y-4">
             <input
               type="text"
@@ -153,7 +166,9 @@ export default function Registration() {
               placeholder="Enter 6-digit OTP"
               className="w-full p-3 border border-gray-300 rounded text-center tracking-widest text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            {otpError && <p className="text-red-600 text-sm text-center">{otpError}</p>}
+            {otpError && (
+              <p className="text-red-600 text-sm text-center">{otpError}</p>
+            )}
             <button
               type="submit"
               className="w-full bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-700 transition"

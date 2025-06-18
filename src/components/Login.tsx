@@ -44,12 +44,14 @@ export default function Login() {
 
     try {
       setLoading(true);
+      const expiresAt = Date.now() + 7*24*60*60*1000;
+      // console.log(`expiresAt:${expiresAt}`)
       const response = await axios.post(`${apiUrl}/login`, formData);
       const { user, token } = response.data;
       const { _id, name, username, email } = user;
       localStorage.setItem(
         "loggedUser",
-        JSON.stringify({ _id, name, username, email, token })
+        JSON.stringify({ _id, name, username, email, token, expiresAt})
       );
       setSuccess(true);
       setFormData(initialFormState);
