@@ -9,6 +9,7 @@ interface User {
 
 const SecondUserProfile: React.FC = () => {
   const { id } = useParams();
+  // console.log(`this is the message form  profile comp/ ${id}, name:${name}, username:${username}`)
   const apiUrl = import.meta.env.VITE_API_URL;
   const loggedUser = JSON.parse(localStorage.getItem("loggedUser") || "{}");
   const [user, setUser] = useState<User>();

@@ -21,7 +21,7 @@ const PrivateChat: React.FC = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
   const loggedUser = JSON.parse(localStorage.getItem("loggedUser") || "{}");
   const navigate = useNavigate();
-  const { receiverId } = useParams();
+  const { receiverId, name} = useParams();
   const senderId = loggedUser._id;
   const [messages, setMessages] = useState<Message[]>([]);
   const [content, setContent] = useState("");
@@ -90,7 +90,7 @@ const PrivateChat: React.FC = () => {
   return (
     <div className="flex flex-col h-[90vh] max-w-xl mx-auto border shadow rounded-md bg-white scrollbar-hide">
       <div className="p-4 border-b text-lg font-semibold bg-blue-600 text-white rounded-t-md">
-        Private Chat
+        {name}
       </div>
 
       <div className="flex-1 overflow-y-auto px-4 py-2 space-y-3 bg-gray-50 scrollbar-hide">

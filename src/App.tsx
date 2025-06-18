@@ -63,7 +63,7 @@ function App() {
             }
           />
           <Route
-            path="user-profile/:id"
+            path="user-profile/:id/:name/:username"
             element={
               <>
                 <NavBar />
@@ -72,7 +72,7 @@ function App() {
             }
           />
           <Route
-            path="/privatemessage/:receiverId"
+            path="/privatemessage/:receiverId/:name"
             element={
               <>
                 <NavBar />

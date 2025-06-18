@@ -86,7 +86,7 @@ const SearchBar: React.FC = () => {
             </p>
           <button
                 onClick={()=>{
-                  navigate(`/user-profile/${foundUser._id}`)
+                  navigate(`/user-profile/${foundUser._id}/${foundUser.name}/${foundUser.username}`)
                 }}
                 className="bg-blue-600 text-white px-5 w-full mt-5 py-2 rounded-lg hover:bg-blue-700 transition duration-200">
                 Profile

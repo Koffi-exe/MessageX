@@ -37,8 +37,8 @@ const FriendsList = () => {
     else setError("No user ID found.");
   }, []);
 
-  const handleSendMessage = (friendId: string) => {
-    navigate(`/privatemessage/${friendId}`);
+  const handleSendMessage = (friendId: string, friendName: string) => {
+    navigate(`/privatemessage/${friendId}/${friendName}`);
   };
 
   return (
@@ -70,7 +70,7 @@ const FriendsList = () => {
                   </div>
                 </div>
                 <button
-                  onClick={() => handleSendMessage(friend._id)}
+                  onClick={() => handleSendMessage(friend._id, friend.name)}
                   className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
                 >
                   Message
