@@ -92,6 +92,7 @@ function App() {
         pauseOnHover
         draggable
         theme="colored"
+        style={{marginTop:"50px"}}
         />
     </>
   );
