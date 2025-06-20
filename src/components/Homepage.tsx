@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import {toast} from 'react-toastify'
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -92,13 +93,13 @@ const HomePage = () => {
               </div>
               <div className="mt-4 md:mt-0">
                 <button
-                  onClick={() => alert("under development")}
+                  onClick={() => toast.info("Still under development")}
                   className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg mr-3"
                 >
                   Open Chat
                 </button>
                 <button
-                  onClick={() => alert("Under development")}
+                  onClick={() => toast.info("Still under development")}
                   className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg"
                 >
                   Upload Photo

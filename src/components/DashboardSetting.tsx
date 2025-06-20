@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const Settings = () => {
   const [formData, setFormData] = useState({
@@ -13,9 +14,7 @@ const Settings = () => {
   const [activeSection, setActiveSection] = useState<
     "name" | "username" | "password" | ""
   >("");
-  const [message, setMessage] = useState("");
-  const [passwordError, setPasswordError] = useState<string>("");
-  const [status, setStatus] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const apiUrl = import.meta.env.VITE_API_URL;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,39 +23,45 @@ const Settings = () => {
 
   const toggleSection = (section: "name" | "username" | "password") => {
     setActiveSection((prev) => (prev === section ? "" : section));
-    setMessage("");
-    setStatus("");
-    setPasswordError("");
   };
 
   const handleNameUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.name) {
+      toast.warning("Name cannot be empty");
+      setLoading(false);
+      return;
+    }
+    setLoading(true);
     try {
       const { _id } = loggedUser;
       const name = formData.name.trim();
       const response = await axios.put(`${apiUrl}/update/name`, { name, _id });
 
       if (response.status !== 200) {
-        return setMessage("Error while updating name");
+        return toast.error("Error while updating name");
       }
 
-      setStatus("Name updated successfully!");
+      toast.success("Name updated successfully!");
       setFormData((prev) => ({ ...prev, name: "" }));
       const updatedUser = { ...loggedUser, name };
       localStorage.setItem("loggedUser", JSON.stringify(updatedUser));
     } catch (error) {
       console.log(error);
-      setMessage("Failed to update name");
+      toast.error("Failed to update name");
     } finally {
-      setTimeout(() => {
-        setMessage("");
-        setStatus("");
-      }, 5000);
+      setLoading(false);
     }
   };
 
   const handleUsernameUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true)
+    if (!formData.username) {
+      toast.warning("Username cannot be empty");
+      setLoading(false);
+      return;
+    }
     try {
       const { _id } = loggedUser;
       const username = formData.username.replace(/\s+/g, "");
@@ -66,27 +71,29 @@ const Settings = () => {
       });
 
       if (response.status !== 200) {
-        return setMessage("Error while updating username");
+        return toast.error("Error while updating username");
       }
 
-      setStatus("Username updated successfully!");
+      toast.success("Username updated successfully!");
       setFormData((prev) => ({ ...prev, username: "" }));
       const updatedUser = { ...loggedUser, username };
       localStorage.setItem("loggedUser", JSON.stringify(updatedUser));
     } catch (error) {
       console.log(error);
-      setMessage("Failed to update username");
-    } finally {
-      setTimeout(() => {
-        setMessage("");
-        setStatus("");
-      }, 5000);
+      toast.error("Failed to update username");
+    } finally{
+      setLoading(false)
     }
   };
 
   const handlePasswordUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
-    setPasswordError("");
+    setLoading(true)
+    if (!formData.newPassword || !formData.currentPassword) {
+      toast.warning("Password fields are empty!");
+      setLoading(false);
+      return;
+    }
     try {
       const _id = loggedUser._id;
       const response = await axios.put(`${apiUrl}/update/password`, {
@@ -96,10 +103,10 @@ const Settings = () => {
       });
 
       if (response.status !== 200) {
-        return setMessage("Error while updating password");
+        return toast.error("Error while updating password");
       }
 
-      setStatus("Password updated successfully!");
+      toast.success("Password updated successfully!");
       setFormData((prev) => ({
         ...prev,
         currentPassword: "",
@@ -107,25 +114,23 @@ const Settings = () => {
       }));
     } catch (error: any) {
       if (error.response?.status === 450) {
-        setPasswordError("Incorrect current password");
+        toast.error("Incorrect current password");
       } else if (error.response?.status === 400) {
-        setPasswordError(error.response.data.message || "Validation error");
+        toast.error(error.response.data.message || "Validation error");
       } else {
-        setMessage("Failed to update password");
+        toast.error("Failed to update password");
       }
       console.log(error);
-    } finally {
-      setTimeout(() => {
-        setMessage("");
-        setStatus("");
-        setPasswordError("");
-      }, 5000);
+    } finally{
+      setLoading(false)
     }
   };
 
   return (
     <div className="p-6 max-w-xl mx-auto bg-white shadow-md rounded-xl mt-10">
-      <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">Settings</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">
+        Settings
+      </h1>
 
       {/* Change Name */}
       <div className="mb-6 border border-gray-200 rounded-lg p-4">
@@ -144,12 +149,13 @@ const Settings = () => {
               value={formData.name}
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-400"
-            />
+              />
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+              disabled={loading}
+              className="w-full disabled:cursor-not-allowed bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
             >
-              Update Name
+              {loading ? <span className="loader p-1 mr-2" /> : "Update Name"}
             </button>
           </form>
         )}
@@ -175,9 +181,10 @@ const Settings = () => {
             />
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+              disabled={loading}
+              className="w-full disabled:cursor-not-allowed bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
             >
-              Update Username
+              {loading ? <span className="loader p-1 mr-2" /> : "Update username"}
             </button>
           </form>
         )}
@@ -211,20 +218,14 @@ const Settings = () => {
             />
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+              disabled={loading}
+              className="w-full disabled:cursor-not-allowed bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
             >
-              Update Password
+              {loading ? <span className="loader p-1 mr-2" /> : "Update password"}
             </button>
           </form>
         )}
       </div>
-
-      {/* Message Feedback */}
-      {status && <p className="text-green-600 text-center text-sm">{status}</p>}
-      {message && <p className="text-red-600 text-center text-sm">{message}</p>}
-      {passwordError && (
-        <p className="text-red-600 text-center text-sm">{passwordError}</p>
-      )}
     </div>
   );
 };

@@ -1,5 +1,7 @@
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 import Login from "./components/Login";
 import NavBar from "./components/NavBar";
@@ -10,7 +12,6 @@ import Registration from "./components/Registration";
 import ProtectedElement from "./components/PrivateEle";
 import SearchBar from "./components/SearchBar";
 import SecondUserProfile from "./components/SecondUserProfile";
-// import FriendRequests from "./components/FriendRequests";
 import PrivateChat from "./components/PrivateChat";
 
 function App() {
@@ -80,18 +81,18 @@ function App() {
               </>
             }
           />
-          {/* <Route
-            path="/testing"
-            element={
-              <>
-                <NavBar />
-                <FriendRequests />
-              </>
-            }
-          /> */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="colored"
+        />
     </>
   );
 }

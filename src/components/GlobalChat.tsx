@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { io, Socket } from "socket.io-client";
 
 // Define the message type
@@ -61,7 +62,7 @@ const Chat: React.FC = () => {
   const sendBroadcast = () => {
     if (!input.trim()) return;
     if (activeUsers == 1 && !activeWarning) {
-      alert(
+      toast.info(
         "No one is listening to you buddy, still feel free to send messages"
       );
       setActiveWarning(true);
