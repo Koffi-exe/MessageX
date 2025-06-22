@@ -60,7 +60,7 @@ const FriendsList = () => {
               >
                 <div className="flex items-center gap-4">
                   <div className="bg-blue-100 p-2 rounded-full">
-                    <MdPerson className="text-blue-600 text-3xl" />
+                    <MdPerson className="text-blue-600 text-3xl" />  {/*profile Picture */}
                   </div>
                   <div>
                     <p className="text-lg font-semibold text-gray-800">{friend.name}</p>

@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { MdHome, MdChat, MdLock, MdPerson, MdSettings, MdPeople } from "react-icons/md";
+import {
+  MdHome,
+  MdChat,
+  MdLock,
+  MdPerson,
+  MdSettings,
+  MdPeople,
+} from "react-icons/md";
 
 import Chat from "./GlobalChat";
 import PrivateRoom from "./PrivateRoom";
@@ -12,31 +19,60 @@ import FriendRequests from "./FriendRequests";
 const Profile = () => {
   const loggedUser = JSON.parse(localStorage.getItem("loggedUser") || "{}");
   const navigate = useNavigate();
+  const [logoutTry, setLogoutTry] = useState<boolean>(false);
 
   return (
     <div className="flex justify-center bg-gray-50 px-4 py-10">
-      <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-md space-y-6">
-        <h1 className="text-3xl font-bold text-center text-gray-800">
-          Welcome, <span className="text-blue-600 capitalize">{loggedUser.name}</span>
-        </h1>
-        <div className="space-y-2">
-          <p className="text-lg text-gray-600">
-            <span className="font-semibold text-gray-800">Username:</span> {loggedUser.username}
-          </p>
-          <p className="text-lg text-gray-600">
-            <span className="font-semibold text-gray-800">Email:</span> {loggedUser.email}
-          </p>
+      {logoutTry ? (
+        <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-md space-y-6">
+          <h1 className="text-3xl font-bold text-center text-gray-800">
+            Log out now?
+          </h1>
+          <div className="flex gap-2 justify-center">
+            <button
+            onClick={()=>{
+              localStorage.removeItem("loggedUser");
+              navigate("/");
+            }}
+            className="w-full py-2 px-4 bg-gray-600 text-white  rounded-xl hover:bg-gray-700 transition-colors">
+              Yes
+            </button>
+            <button
+              onClick={() => setLogoutTry(false)}
+              className="w-full py-2 px-4 bg-blue-600 text-white  rounded-xl hover:bg-blue-700 transition-colors"
+            >
+              No
+            </button>
+          </div>
         </div>
-        <button
-          onClick={() => {
-            localStorage.removeItem("loggedUser");
-            navigate("/");
-          }}
-          className="w-full py-2 px-4 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors"
-        >
-          Logout
-        </button>
-      </div>
+      ) : (
+        <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-md space-y-6">
+          <h1 className="text-3xl font-bold text-center text-gray-800">
+            Welcome,{" "}
+            <span className="text-blue-600 capitalize">{loggedUser.name}</span>
+          </h1>
+          <div className="space-y-2">
+            <p className="text-lg text-gray-600">
+              <span className="font-semibold text-gray-800">Username:</span>{" "}
+              {loggedUser.username}
+            </p>
+            <p className="text-lg text-gray-600">
+              <span className="font-semibold text-gray-800">Email:</span>{" "}
+              {loggedUser.email}
+            </p>
+          </div>
+          <button
+            onClick={() => {
+              setLogoutTry(true);
+              // localStorage.removeItem("loggedUser");
+              // navigate("/");
+            }}
+            className="w-full py-2 px-4 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors"
+          >
+            Logout
+          </button>
+        </div>
+      )}
     </div>
   );
 };
@@ -45,7 +81,13 @@ const Profile = () => {
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<
-    "Home" | "Chats" | "Private Room" | "Profile" | "Settings" | "Friends" | "Friend Requests"
+    | "Home"
+    | "Chats"
+    | "Private Room"
+    | "Profile"
+    | "Settings"
+    | "Friends"
+    | "Friend Requests"
   >("Friends");
   const [roomId, setRoomId] = useState("");
   const [inputId, setInputId] = useState("");
@@ -58,13 +100,41 @@ const Dashboard: React.FC = () => {
   }, [activeTab, navigate]);
 
   const tabs = [
-    { name: "Home", label: "Home", icon: <MdHome className="inline-block mr-2" /> },
-    { name: "Friends", label: "Friends List", icon: <MdPeople className="inline-block mr-2" /> },
-    { name: "Friend Requests", label: "Friend Requests", icon: <MdPeople className="inline-block mr-2" /> },
-    { name: "Chats", label: "Global Chat", icon: <MdChat className="inline-block mr-2" /> },
-    { name: "Private Room", label: "Private Room", icon: <MdLock className="inline-block mr-2" /> },
-    { name: "Profile", label: "Profile", icon: <MdPerson className="inline-block mr-2" /> },
-    { name: "Settings", label: "Settings", icon: <MdSettings className="inline-block mr-2" /> },
+    {
+      name: "Home",
+      label: "Home",
+      icon: <MdHome className="inline-block mr-2" />,
+    },
+    {
+      name: "Friends",
+      label: "Friends List",
+      icon: <MdPeople className="inline-block mr-2" />,
+    },
+    {
+      name: "Friend Requests",
+      label: "Friend Requests",
+      icon: <MdPeople className="inline-block mr-2" />,
+    },
+    {
+      name: "Chats",
+      label: "Global Chat",
+      icon: <MdChat className="inline-block mr-2" />,
+    },
+    {
+      name: "Private Room",
+      label: "Private Room",
+      icon: <MdLock className="inline-block mr-2" />,
+    },
+    {
+      name: "Profile",
+      label: "Profile",
+      icon: <MdPerson className="inline-block mr-2" />,
+    },
+    {
+      name: "Settings",
+      label: "Settings",
+      icon: <MdSettings className="inline-block mr-2" />,
+    },
   ];
 
   return (
@@ -80,7 +150,9 @@ const Dashboard: React.FC = () => {
       {/* Sidebar */}
       <aside
         className={`fixed top-0 left-0 h-full w-64 bg-gray-800 text-white p-4 space-y-6 transform transition-transform duration-300 z-30
-        ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 md:static md:block`}
+        ${
+          sidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } md:translate-x-0 md:static md:block`}
       >
         <div className="flex justify-between items-center mb-4 md:hidden">
           <h2 className="text-2xl font-bold">Dashboard</h2>
@@ -137,7 +209,7 @@ const Dashboard: React.FC = () => {
         {activeTab === "Profile" && <Profile />}
         {activeTab === "Settings" && <Settings />}
         {activeTab === "Friends" && <FriendsList />}
-        {activeTab === "Friend Requests" && <FriendRequests/>}
+        {activeTab === "Friend Requests" && <FriendRequests />}
       </main>
     </div>
   );
